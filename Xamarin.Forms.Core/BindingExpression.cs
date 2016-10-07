@@ -406,7 +406,7 @@ namespace Xamarin.Forms
 			public object Source { get; private set; }
 		}
 
-		class WeakPropertyChangedProxy
+		internal class WeakPropertyChangedProxy
 		{
 			WeakReference _source, _listener;
 			internal WeakReference Source => _source;
@@ -420,36 +420,26 @@ namespace Xamarin.Forms
 
 			public void Unsubscribe()
 			{
-				if (_source != null)
-				{
-					var source = _source.Target as INotifyPropertyChanged;
-					if (source != null)
-					{
-						source.PropertyChanged -= OnPropertyChanged;
-					}
-					_source = null;
-					_listener = null;
-				}
+				if (_source == null)
+					return;
+				var source = _source.Target as INotifyPropertyChanged;
+				if (source != null)
+					source.PropertyChanged -= OnPropertyChanged;
+				_source = null;
+				_listener = null;
 			}
 
-			private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+			void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
 			{
 				if (_listener != null)
 				{
 					var handler = _listener.Target as PropertyChangedEventHandler;
 					if (handler != null)
-					{
 						handler(sender, e);
-					}
 					else
-					{
 						Unsubscribe();
-					}
-				}
-				else
-				{
+				} else
 					Unsubscribe();
-				}
 			}
 		}
 
