@@ -14,6 +14,7 @@ namespace Xamarin.Forms.Controls
 			var navpageiOSButton = new Button() { Text = "Navigation Page (iOS)" };
 			var viselemiOSButton = new Button() { Text = "Visual Element (iOS)" };
 			var appAndroidButton = new Button() { Text = "Application (Android)" };
+			var entryiOSButton = new Button() { Text = "Entry (iOS)" };
 
 			mdpWindowsButton.Clicked += (sender, args) => { SetRoot(new MasterDetailPageWindows(new Command(RestoreOriginal))); };
 			npWindowsButton.Clicked += (sender, args) => { SetRoot(new NavigationPageWindows(new Command(RestoreOriginal))); };
@@ -21,10 +22,11 @@ namespace Xamarin.Forms.Controls
 			navpageiOSButton.Clicked += (sender, args) => { SetRoot(NavigationPageiOS.Create(new Command(RestoreOriginal))); };
 			viselemiOSButton.Clicked += (sender, args) => { SetRoot(new VisualElementiOS(new Command(RestoreOriginal))); };
 			appAndroidButton.Clicked += (sender, args) => { SetRoot(new ApplicationAndroid(new Command(RestoreOriginal))); };
+			entryiOSButton.Clicked += (sender, args) => { Navigation.PushAsync(new EntryPageiOS()); };
 
 			Content = new StackLayout
 			{
-				Children = { mdpWindowsButton, npWindowsButton, tbWindowsButton, navpageiOSButton, viselemiOSButton, appAndroidButton }
+				Children = { mdpWindowsButton, npWindowsButton, tbWindowsButton, navpageiOSButton, viselemiOSButton, appAndroidButton, entryiOSButton }
 			};
 		}
 
